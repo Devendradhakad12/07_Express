@@ -28,9 +28,8 @@ const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
   const statusCode = err.status || 500;
   res.status(statusCode).json({
-    error: {
-      message: err.message || "Internal Server Error",
-    },
+    success: false,
+    message: err.message || "Internal Server Error",
   });
 };
 
@@ -91,14 +90,4 @@ process.on("unhandledRejection", (err) => {
 });
 
 //!------------------------------------
-
-// wrapAsync
-function wrapAcync(func) {
-  return function (req, res, next) {
-    func(req, res, next).catch((err) => catchErrorHandler(res, err, next));
-  };
-}
-app.post(
-  "/",
-  wrapAcync(async (req, res, next) => {})
-);
+ 
